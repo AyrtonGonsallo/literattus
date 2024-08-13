@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'models/book.dart';
+import 'widgets/book_card.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -7,27 +8,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
         useMaterial3: true,
       ),
@@ -38,15 +23,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -59,50 +35,88 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+              ),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/ic_launcher.png', // Replace with your app icon path
+                    height: 72,
+                    width: 72,
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Littératus',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Accueil'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Littératus')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.book_rounded),
+              title: const Text('Tous les livres'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BooksPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.add),
+              title: const Text('Ajouter un livre'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddBookPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Parametres'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
@@ -119,7 +133,224 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+    );
+  }
+}
+class BooksPage extends StatelessWidget {
+  const BooksPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Define a static list of books with all properties
+    final List<Book> books = [
+      Book(
+        title: 'Le duel sous l\'Ancien Régime',
+        imagePath: 'assets/duel.webp',
+        prix: 9.99,
+        dateParution: DateTime(1982, 1, 1),
+        auteur: 'Micheline Cuénin, Yves-Marie Bercé, Jacques Callot, Evelyne Lever, Maurice Lever',
+        type: 'ePub',
+      ),
+      Book(
+        title: 'La femme et le soldat - Viols et violences de guerre du Moyen Age à nos jours',
+        imagePath: 'assets/femmesoldat.webp',
+        prix: 14.99,
+        dateParution: DateTime(2012, 1, 21),
+        auteur: 'Maurice Agulhon',
+        type: 'PDF',
+      ),
+      Book(
+        title: 'HISTOIRE DU VAGABONDAGE. Du Moyen Age à nos jours',
+        imagePath: 'assets/vagabondage.webp',
+        prix: 14.99,
+        dateParution: DateTime(1998, 11, 18),
+        auteur: 'Maurice Agulhon',
+        type: 'ePub',
+      ),
+      Book(
+        title: 'La mort, l\'au-delà et les autres mondes',
+        imagePath: 'assets/mort.webp',
+        prix: 15.99,
+        dateParution: DateTime(2019, 2, 20),
+        auteur: 'Claude Lecouteux',
+        type: 'PDF',
+      ),
+      Book(
+        title: 'Rabelais en Vendée',
+        imagePath: 'assets/rabelais.webp',
+        prix: 9.99,
+        dateParution: DateTime(2004, 6, 1),
+        auteur: 'Gilbert Prouteau',
+        type: 'PDF',
+      ),
+      Book(
+        title: 'Rire avec Dieu - L\'humour chez les chrétiens, les juifs et les musulmans',
+        imagePath: 'assets/rire.webp',
+        prix: 17.99,
+        dateParution: DateTime(2019, 5, 9),
+        auteur: 'Marc Lienhard',
+        type: 'ePub',
+      ),
+      Book(
+        title: 'Vivre la misère au Moyen Age',
+        imagePath: 'assets/misere.webp',
+        prix: 17.99,
+        dateParution: DateTime(2023, 4, 7),
+        auteur: 'Jean-Louis Roch',
+        type: 'ePub',
+      ),
+      Book(
+        title: 'Brigands, bandits, malfaiteurs - Incroyables histoires des crapules, arsouilles, monte-en-l\'air, canailles et contrebandiers de tous les temps',
+        imagePath: 'assets/brigants.webp',
+        prix: 9.99,
+        dateParution: DateTime(2017, 9, 11),
+        auteur: 'Bernard Hautecloque',
+        type: 'Multi-format',
+      ),
+      Book(
+        title: 'L\'amoureuse histoire d\'Auguste Comte et de Clotilde de Vaux',
+        imagePath: 'assets/augusteclaute.webp',
+        prix: 10.99,
+        dateParution: DateTime(1917, 1, 1),
+        auteur: 'Charles de Rouvre',
+        type: 'ePub',
+      ),
+      Book(
+        title: 'John Milton, poète combattant',
+        imagePath: 'assets/milton.webp',
+        prix: 9.99,
+        dateParution: DateTime(1959, 1, 1),
+        auteur: 'Emile Saillens',
+        type: 'ePub',
+      ),
+      Book(
+        title: 'Kierkegaard, écrire ou mourir',
+        imagePath: 'assets/kierkegaard.webp',
+        prix: 12.99,
+        dateParution: DateTime(2015, 1, 1),
+        auteur: 'Stéphane Vial',
+        type: 'ePub',
+      ),
+      Book(
+        title: 'Esprit, es-tu là? Histoires du surnaturel, de l\'Antiquité à nos jours',
+        imagePath: 'assets/surnaturel.webp',
+        prix: 12.99,
+        dateParution: DateTime(2013, 11, 8),
+        auteur: 'Vivianne Perret',
+        type: 'ePub',
+      ),
+      Book(
+        title: 'Armageddon - Une histoire de la fin du monde',
+        imagePath: 'assets/findumonde.webp',
+        prix: 14.99,
+        dateParution: DateTime(2024, 3, 6),
+        auteur: 'Régis Burnet, Pierre-Edouard Detal',
+        type: 'ePub',
+      ),
+      Book(
+        title: 'L\'Apologétique chrétienne - Expressions de la pensée religieuse, de l\'Antiquité à nos jours',
+        imagePath: 'assets/apologetique.webp',
+        prix: 11.99,
+        dateParution: DateTime(2019, 9, 3),
+        auteur: 'Didier Boisson, Elisabeth Pinto-Mathieu',
+        type: 'Multi-format',
+      ),
+      Book(
+        title: 'La Prostitution devant le philosophe',
+        imagePath: 'assets/prostphil.webp',
+        prix: 1.99,
+        dateParution: DateTime(2016, 8, 5),
+        auteur: 'Charles Richard',
+        type: 'Multi-format',
+      ),
+      Book(
+        title: 'Dis socrate, c\'est quoi l\'amour ? - Quand les philosophes discutent du plus beau des sentiments',
+        imagePath: 'assets/socrateamour.webp',
+        prix: 13.99,
+        dateParution: DateTime(2021, 10, 4),
+        auteur: 'Nora Kreft',
+        type: 'ePub',
+      ),
+      Book(
+        title: 'Le vrai métier des philosophes',
+        imagePath: 'assets/vraimetier.webp',
+        prix: 10.99,
+        dateParution: DateTime(2024, 5, 29),
+        auteur: 'Nassim El Kabli',
+        type: 'ePub',
+      ),
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Liste des livres'),
+        backgroundColor: Colors.blueAccent,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Books Collection',
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.blueAccent,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.7,
+                ),
+                itemCount: books.length,
+                itemBuilder: (context, index) {
+                  return BookCard(book: books[index]);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Settings'),
+      ),
+      body: const Center(
+        child: Text('This is the Settings page'),
+      ),
+    );
+  }
+}
+
+
+class AddBookPage extends StatelessWidget {
+  const AddBookPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Ajouter un livre'),
+      ),
+      body: const Center(
+        child: Text('Page pour ajouter des livres'),
+      ),
     );
   }
 }

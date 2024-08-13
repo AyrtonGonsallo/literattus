@@ -187,5 +187,6 @@ Compiler l'Application
 flutter build apk --release
 Le fichier APK généré sera situé dans build/app/outputs/flutter-apk/app-release.apk.
 
+si on utilise des assets il faut les declarer dans pubspec.yaml
 
 
