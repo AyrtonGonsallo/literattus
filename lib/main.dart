@@ -289,32 +289,24 @@ class BooksPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Books Collection',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.blueAccent,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // Utilisez 840 pixels comme point de rupture
+            int columns = constraints.maxWidth < 840 ? 2 : 4;
+
+            return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: columns,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 0.7,
               ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 0.7,
-                ),
-                itemCount: books.length,
-                itemBuilder: (context, index) {
-                  return BookCard(book: books[index]);
-                },
-              ),
-            ),
-          ],
+              itemCount: books.length,
+              itemBuilder: (context, index) {
+                return BookCard(book: books[index]);
+              },
+            );
+          },
         ),
       ),
     );
