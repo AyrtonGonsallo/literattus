@@ -182,6 +182,10 @@ xxhdpi: 144x144
 xxxhdpi: 192x192
 
 
+Compiler l'Application
+
+flutter build apk --release
+Le fichier APK généré sera situé dans build/app/outputs/flutter-apk/app-release.apk.
 
 
 
