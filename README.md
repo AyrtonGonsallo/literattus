@@ -3,17 +3,139 @@
 A new Flutter project for books
 
 ## Getting Started
+flutter est un toolkit orienté ui crée par google
+creer des applications multi plateformes
+basé sur dart(reprend des concepts d'autres langages)
 
-This project is a starting point for a Flutter application.
+Pourquoi flutter ?
+- utiliser le meme code pour diverses plateformes
+- meme langage dart pour android et ios
+- un seul code a maintenir
+- reduire le temps de developpement(emulateur pour voir le resultat en instantané)
+- bonnes performances proche du developpement natif
 
-A few resources to get you started if this is your first Flutter project:
+Dart
+orienté objet et crée par google
+facile a apprendre
+hot reload permet de voir de maniere instantanee le resultat produit par une modif sans reinitialiser l'app
+evite l'affichage saccadé ce qui fluidifie les apps
+plus besoins de fichiers séparés pour le layout
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Dart
+la fonction main est le point d'entrée de toute application Dart
+commentaires // /**/
+type nomVar=valeur;
+int age;
+String s1="";
+var a =true; //type fixe par la suite
+dynamic x=2; //type changeant
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+interpolation de strings
+int age=25;
+print("vous avez $age ans");
+print("vous avez ${age} ans"); //avec évaluation
+les listes
+List<int> oddNum=[1,3,5];
+oddNum.add(7);
+print oddNum:length
+spread operator
+var newList = [...oddNum,...evenNumbers,8,9]
+Les boucles et conditions
+un if evalue les expressions booleennes
+print("bienvenue ${user??'visiteur'}");
+for(var player in players){
+print(player);
+}
+les fonctions
+
+int add(int a,int b){
+return a+b;
+}
+arrow
+add(int a,int b)=>a+b;
+parametres nommés
+add({int a,int b})=>a+b;
+print(add(a:5,b:6));
+parametres par defaut et facultatifs
+int add3({int a,int b,[int c]}){
+if(c==null)
+c=0;
+return a+b+c;
+}
+int add3({int a,int b,[int c=0]}){
+return a+b+c;
+}
+
+Les classes et les constructeurs
+
+class Person{
+var name;
+Person(this.name);
+
+	//constructeur nommés
+	Person.fromPerson(Person p){
+		name=p.name;
+	}
+
+	//constructeur nommés
+	Person.fromPerson(Person p):name=p.name{//initialisees avant le corps du constructeur
+		print("fin du constructeur");
+	}
+}
+pas de private, public et protected
+
+pour rendre une propriété privée ajouter underscore
+var _name;
+elle ne sera visible qu'au sein de la meme librairie( du meme fichier)
+
+Heritage
+
+class Employee extends Person{
+var jobName;
+Employee(this.jobName,var name):super(name);
+@override
+void speak()=>print("Je suis $name et je travaille comme $jobName")
+
+}
+
+const et final
+
+const b=5;
+
+final c=5;
+on ne peut les redefinir
+
+
+les differences
+const now=DateTime.now() //erreur car l'heure est connue a l'execution et non a la compilation
+final now=DateTime.now()
+aussi une liste final a son contenu non final et une liste const a son contenu const
+
+Code asynchrone
+
+Future<int> addAsync(int a,int b) async{
+const duration=Duration(seconds:5);
+await Future.delayed(duration,(){  //await indique que le compilateur doit attendre la fin de cette instruction pour passer a la ligne suivante
+print("fin des 5 sec");
+}) //c'est une timeout
+return a+b;
+}
+
+var res=addAsync(2,5);
+res.then((value) {print(value);});
+print(res);
+
+installation
+mettre le zip du site a la racine et ajouter le chemin vers lib au path
+
+flutter doctor 		verifie que tous les outis de dev flutter sont bien installés
+
+installer android studio
+Run `flutter doctor --android-licenses` to accept the SDK licenses.
+
+installer un émulateur
+creer un projet
+structure d'un projet
 
 1. .dart_tool
    Ce dossier est généré automatiquement par Flutter/Dart et contient des outils nécessaires pour le développement, comme la gestion des packages et la configuration de build. Tu n'as pas besoin de modifier ce dossier manuellement.
@@ -41,3 +163,14 @@ samples, guidance on mobile development, and a full API reference.
    Cette section affiche les bibliothèques externes et les dépendances que ton projet utilise, en fonction des packages déclarés dans pubspec.yaml.
 10. Scratches and Consoles
     Il s'agit d'un espace de travail temporaire où tu peux écrire des morceaux de code pour les tester rapidement, sans les inclure directement dans ton projet.
+
+
+
+
+
+
+
+
+
+
+
