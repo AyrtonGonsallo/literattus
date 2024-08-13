@@ -166,9 +166,20 @@ structure d'un projet
 
 
 
+Les icônes Android sont stockées dans le dossier android/app/src/main/res/.
+Remplace les fichiers suivants avec tes propres icônes :
+mipmap-hdpi/ic_launcher.png
+mipmap-mdpi/ic_launcher.png
+mipmap-xhdpi/ic_launcher.png
+mipmap-xxhdpi/ic_launcher.png
+mipmap-xxxhdpi/ic_launcher.png
 
-
-
+Assure-toi que les icônes sont en PNG et ont les dimensions appropriées :
+mdpi: 48x48
+hdpi: 72x72
+xhdpi: 96x96
+xxhdpi: 144x144
+xxxhdpi: 192x192
 
 
 
