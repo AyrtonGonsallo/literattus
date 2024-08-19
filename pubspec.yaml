@@ -30,8 +30,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
+  intl: ^0.18.0 # Pour formater les dates
+  image_picker: ^1.0.0 # Pour sélectionner des images depuis la galerie
+  path_provider: ^2.0.9
+  sqflite: ^2.0.0+4
+  path: ^1.8.3
+  uuid: ^3.0.6
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8

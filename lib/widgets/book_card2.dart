@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import '../models/book.dart';
 
-class BookCard extends StatelessWidget {
+class BookCard2 extends StatelessWidget {
   final Book book;
+  final VoidCallback onDelete;
 
-  const BookCard({super.key, required this.book});
+  const BookCard2({super.key, required this.book, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +21,13 @@ class BookCard extends StatelessWidget {
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Image.asset(
-                  'assets/augusteclaute.webp', // Remplacer par le chemin de l'image de remplacement
+                  'assets/augusteclaute.webp', // Image de remplacement
                   fit: BoxFit.cover,
                 );
               },
             )
                 : Image.asset(
-              'assets/augusteclaute.webp', // Remplacer par le chemin de l'image de remplacement
+              'assets/augusteclaute.webp', // Image de remplacement
               fit: BoxFit.cover,
             ),
           ),
@@ -72,6 +73,14 @@ class BookCard extends StatelessWidget {
                     'Type: ${book.type}',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.blueAccent,
+                    ),
+                  ),
+                  // Bouton de suppression
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      icon: Icon(Icons.delete, color: Colors.white),
+                      onPressed: onDelete,
                     ),
                   ),
                 ],
