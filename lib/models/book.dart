@@ -9,7 +9,9 @@ class Book {
   final DateTime dateParution;
   final String auteur;
   final String type;
-  // Update the constructor to accept all properties
+  int? listId; // Make listId nullable
+
+  // Update the constructor to accept all properties, including listId as optional
   Book({
     required this.id,
     required this.title,
@@ -18,7 +20,9 @@ class Book {
     required this.dateParution,
     required this.auteur,
     required this.type,
+    this.listId, // Optional field
   });
+
   // Constructeur sans ID
   Book.withoutId({
     required this.title,
@@ -27,6 +31,7 @@ class Book {
     required this.dateParution,
     required this.auteur,
     required this.type,
+    this.listId, // Optional field
   }) : id = Uuid().v4().hashCode; // Générer un UUID et utiliser son hashcode comme ID
 
   // Convertir un Map en Book
@@ -39,6 +44,7 @@ class Book {
       dateParution: DateTime.parse(map['dateParution'] as String? ?? DateTime.now().toIso8601String()),
       auteur: map['auteur'] as String? ?? '',
       type: map['type'] as String? ?? '',
+      listId: map['listId'] as int?, // Handle optional listId
     );
   }
 
@@ -52,6 +58,7 @@ class Book {
       'dateParution': dateParution.toIso8601String(),
       'auteur': auteur,
       'type': type,
+      'listId': listId, // Handle optional listId
     };
   }
 }

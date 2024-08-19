@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/book.dart';
+import 'dart:io'; // Import this for File
 
 class BookCard2 extends StatelessWidget {
   final Book book;
@@ -15,21 +16,7 @@ class BookCard2 extends StatelessWidget {
         children: [
           // Image en arrière-plan
           Positioned.fill(
-            child: book.imagePath.isNotEmpty
-                ? Image.asset(
-              book.imagePath,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                  'assets/augusteclaute.webp', // Image de remplacement
-                  fit: BoxFit.cover,
-                );
-              },
-            )
-                : Image.asset(
-              'assets/augusteclaute.webp', // Image de remplacement
-              fit: BoxFit.cover,
-            ),
+            child: _getImageWidget(book.imagePath),
           ),
           // Boîte d'informations avec fond semi-transparent
           Positioned(
@@ -47,6 +34,8 @@ class BookCard2 extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
+                      fontSize: 12, // Taille de la police
+                      height: 1.2, // Hauteur de ligne (line height)
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -58,7 +47,7 @@ class BookCard2 extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Date de parution: ${book.dateParution.toLocal().toString().split(' ')[0]}',
+                    'Date: ${book.dateParution.toLocal().toString().split(' ')[0]}',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.orangeAccent,
                     ),
@@ -67,6 +56,8 @@ class BookCard2 extends StatelessWidget {
                     'Auteur: ${book.auteur}',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.yellow,
+                      fontSize: 10, // Taille de la police
+                      height: 1, // Hauteur de ligne (line height)
                     ),
                   ),
                   Text(
@@ -90,5 +81,28 @@ class BookCard2 extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // Helper method to get the correct image widget
+  Widget _getImageWidget(String imagePath) {
+    // Check if the file exists in the custom folder
+    final File file = File(imagePath);
+    if (file.existsSync()) {
+      return Image.file(
+        file,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Image.asset(
+            'assets/augusteclaute.webp', // Image de remplacement
+            fit: BoxFit.cover,
+          );
+        },
+      );
+    } else {
+      return Image.asset(
+        'assets/augusteclaute.webp', // Image de remplacement
+        fit: BoxFit.cover,
+      );
+    }
   }
 }
