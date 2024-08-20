@@ -187,4 +187,56 @@ class DBHelper {
     });
   }
 
+  // Fetch the 3 latest lists
+  Future<List<Liste>> fetchLatestListes() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'listes',
+      orderBy: 'id DESC',
+      limit: 3,
+    );
+    return List.generate(maps.length, (i) {
+      return Liste.fromMap(maps[i]);
+    });
+  }
+
+  // Fetch the 3 latest achats
+  Future<List<Achat>> fetchLatestAchats() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'achats',
+      orderBy: 'id DESC',
+      limit: 3,
+    );
+    return List.generate(maps.length, (i) {
+      return Achat.fromMap(maps[i]);
+    });
+  }
+
+  // Fetch the 3 latest secteurs
+  Future<List<Secteur>> fetchLatestSecteurs() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'secteurs',
+      orderBy: 'id DESC',
+      limit: 3,
+    );
+    return List.generate(maps.length, (i) {
+      return Secteur.fromMap(maps[i]);
+    });
+  }
+  // Fetch the 3 latest secteurs
+  Future<List<Book>> fetchLatestBooks() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'books',
+      orderBy: 'id DESC',
+      limit: 3,
+    );
+    return List.generate(maps.length, (i) {
+      return Book.fromMap(maps[i]);
+    });
+  }
+
+
 }

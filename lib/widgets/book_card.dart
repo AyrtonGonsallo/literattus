@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/book.dart';
 
 class BookCard extends StatelessWidget {
@@ -48,7 +49,7 @@ class BookCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Date: ${book.dateParution.toLocal().toString().split(' ')[0]}',
+                    'Date: ${DateFormat('dd MMM yyyy', 'fr_FR').format(book.dateParution)}',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.orangeAccent,
                     ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_file.dart';
+import 'package:intl/intl.dart';
 import '../models/book.dart';
+
 import 'dart:io'; // Import this for File
 
 class BookCard2 extends StatelessWidget {
@@ -47,7 +50,7 @@ class BookCard2 extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Date: ${book.dateParution.toLocal().toString().split(' ')[0]}',
+                    'Date: ${DateFormat('dd MMM yyyy', 'fr_FR').format(book.dateParution)}',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.orangeAccent,
                     ),

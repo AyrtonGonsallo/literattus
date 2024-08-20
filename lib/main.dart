@@ -1,7 +1,8 @@
 import 'dart:io';
-
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:litteratus/widgets/book_card2.dart';
 import 'package:path_provider/path_provider.dart';
 import 'db_helper.dart';
@@ -14,6 +15,7 @@ import 'package:image_picker/image_picker.dart'; // Pour sélectionner une image
 import 'package:path/path.dart' as path;
 
 void main() {
+
   runApp(const MyApp());
 }
 
@@ -22,40 +24,69 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Littératus',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Littératus'),
+
+
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
 
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  late Future<List<Book>> _booksFuture;
+  late Future<List<Liste>> _listsFuture;
+  late Future<List<Achat>> _achatsFuture;
+  late Future<List<Secteur>> _secteursFuture;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _booksFuture = _getLatestBooks();
+    _listsFuture = _getLatestLists();
+    _achatsFuture = _getLatestAchats();
+    _secteursFuture = _getLatestSecteurs();
+  }
+
+  Future<List<Book>> _getLatestBooks() async {
+    final dbHelper = DBHelper();
+    return await dbHelper.fetchLatestBooks(); // Implement this in your DBHelper
+  }
+
+  Future<List<Liste>> _getLatestLists() async {
+    final dbHelper = DBHelper();
+    return await dbHelper.fetchLatestListes(); // Implement this in your DBHelper
+  }
+
+  Future<List<Achat>> _getLatestAchats() async {
+    final dbHelper = DBHelper();
+    return await dbHelper.fetchLatestAchats(); // Implement this in your DBHelper
+  }
+
+  Future<List<Secteur>> _getLatestSecteurs() async {
+    final dbHelper = DBHelper();
+    return await dbHelper.fetchLatestSecteurs(); // Implement this in your DBHelper
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.blueAccent,
         title: Text(widget.title),
       ),
       drawer: Drawer(
@@ -153,7 +184,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => const AjouterAchatPage()),
                 );
               },
-            ),ListTile(
+            ),
+            ListTile(
               leading: const Icon(Icons.pie_chart),
               title: const Text('Répartition du budget'),
               onTap: () {
@@ -173,10 +205,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
-
             ListTile(
               leading: const Icon(Icons.settings),
-              title: const Text('Parametres'),
+              title: const Text('Paramètres'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -187,28 +218,97 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 16.0,
+          mainAxisSpacing: 16.0,
+          children: [
+            _buildBoxSection('Derniers Livres', _booksFuture, ['id', 'title', 'prix', 'dateParution', 'auteur']),
+            _buildBoxSection('Dernières Listes', _listsFuture, ['id', 'title', 'date']),
+            _buildBoxSection('Derniers Achats', _achatsFuture, ['id', 'title', 'prix', 'lieu', 'status']),
+            _buildBoxSection('Derniers Secteurs', _secteursFuture, ['id', 'title', 'prix']),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
   }
+  Widget _buildBoxSection(String title, Future<List<dynamic>> future, List<String> fields) {
+    return FutureBuilder<List<dynamic>>(
+      future: future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Erreur: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('Aucune donnée trouvée.'));
+        }
+
+        final data = snapshot.data!;
+        return Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent, // Customize the color here
+                ),              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: data.length > 3 ? 3 : data.length,
+                  itemBuilder: (context, index) {
+                    final item = data[index];
+                    return Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                      child: RichText(
+                        text: TextSpan(
+                          children: _getFormattedText(item, fields),
+                          style: DefaultTextStyle.of(context).style,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  List<TextSpan> _getFormattedText(dynamic item, List<String> fields) {
+    initializeDateFormatting("fr_FR", null);
+    return fields.map((field) {
+      if (field == 'title') return TextSpan(text: 'Titre: ${item.title}\n');
+      if (field == 'id') return TextSpan(text: 'ID: ${item.id}  -  ');
+      if (field == 'prix') return TextSpan(text: 'Prix: ${item.prix}  -  ');
+      if (field == 'dateParution') return TextSpan(text: 'Date: ${DateFormat('dd MMM yyyy', 'fr_FR').format(item.dateParution)}\n');
+      if (field == 'auteur') return TextSpan(text: 'Auteur: ${item.auteur}\n');
+      if (field == 'lieu') return TextSpan(text: 'Lieu: ${item.lieu}\n');
+      if (field == 'date') return TextSpan(text: 'Date: ${DateFormat('dd MMM yyyy', 'fr_FR').format(item.date)}\n');
+      return TextSpan(text: '');
+    }).toList();
+  }
 }
+
+
+
 class BooksPage extends StatelessWidget {
   const BooksPage({super.key});
 
@@ -836,8 +936,8 @@ class _AddBookPageState extends State<AddBookPage> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
     );
     if (picked != null && picked != dateParution) {
       setState(() {
@@ -1207,7 +1307,7 @@ class _ToutesLesListesPageState extends State<ToutesLesListesPage> {
                     itemBuilder: (context, index) {
                       return ListTile(
                         title: Text(listes[index].title),
-                        subtitle: Text(listes[index].date.toString()),
+                        subtitle: Text(DateFormat('dd MMM yyyy', 'fr_FR').format(listes[index].date)),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -2020,7 +2120,116 @@ class _BudgetPageState extends State<BudgetPage> {
               Tab(text: 'Répartition'), // Replace with your second tab name
             ],
           ),
+        ),drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+              ),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/ic_launcher.png', // Replace with your app icon path
+                    height: 72,
+                    width: 72,
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Littératus',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Accueil'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Littératus')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.book_sharp),
+              title: const Text('Tous les livres'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BooksPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.checklist),
+              title: const Text('Tous les listes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ToutesLesListesPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.storage),
+              title: const Text('Tous les livres en db'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PBooksPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.book_online),
+              title: const Text('Ajouter un livre'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddBookPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text('Tous les achats'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AchatListePage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shop_outlined),
+              title: const Text('Ajouter un achat'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AjouterAchatPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Parametres'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                );
+              },
+            ),
+          ],
         ),
+      ),
+
         body: TabBarView(
           children: [
             _buildSecteursTab(),
