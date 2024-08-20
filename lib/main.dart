@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:litteratus/widgets/book_card2.dart';
 import 'package:path_provider/path_provider.dart';
@@ -7,6 +8,7 @@ import 'db_helper.dart';
 import 'models/achat.dart';
 import 'models/book.dart';
 import 'models/liste.dart';
+import 'models/secteur.dart';
 import 'widgets/book_card.dart';
 import 'package:image_picker/image_picker.dart'; // Pour sélectionner une image
 import 'package:path/path.dart' as path;
@@ -151,7 +153,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => const AjouterAchatPage()),
                 );
               },
+            ),ListTile(
+              leading: const Icon(Icons.pie_chart),
+              title: const Text('Répartition du budget'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BudgetPage()),
+                );
+              },
             ),
+            ListTile(
+              leading: const Icon(Icons.pie_chart_outline_rounded),
+              title: const Text('Ajouter un secteur'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AjouterSecteurPage()),
+                );
+              },
+            ),
+
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Parametres'),
@@ -337,6 +359,135 @@ class BooksPage extends StatelessWidget {
         title: const Text('Liste des livres'),
         backgroundColor: Colors.blueAccent,
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+              ),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/ic_launcher.png', // Replace with your app icon path
+                    height: 72,
+                    width: 72,
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Littératus',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Accueil'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Littératus')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.book_sharp),
+              title: const Text('Tous les livres'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BooksPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.checklist),
+              title: const Text('Tous les listes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ToutesLesListesPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.storage),
+              title: const Text('Tous les livres en db'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PBooksPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.book_online),
+              title: const Text('Ajouter un livre'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddBookPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text('Tous les achats'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AchatListePage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shop_outlined),
+              title: const Text('Ajouter un achat'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AjouterAchatPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.pie_chart),
+              title: const Text('Répartition du budget'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BudgetPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.pie_chart_outline_rounded),
+              title: const Text('Ajouter un secteur'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AjouterSecteurPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Parametres'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: LayoutBuilder(
@@ -416,7 +567,116 @@ class _PBooksPageState extends State<PBooksPage> {
       appBar: AppBar(
         title: const Text('Liste des livres'),
         backgroundColor: Colors.blueAccent,
+      ),drawer: Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blueAccent,
+            ),
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/ic_launcher.png', // Replace with your app icon path
+                  height: 72,
+                  width: 72,
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Littératus',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Accueil'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Littératus')),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.book_sharp),
+            title: const Text('Tous les livres'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const BooksPage()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.checklist),
+            title: const Text('Tous les listes'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ToutesLesListesPage()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.storage),
+            title: const Text('Tous les livres en db'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PBooksPage()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.book_online),
+            title: const Text('Ajouter un livre'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AddBookPage()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.shopping_cart),
+            title: const Text('Tous les achats'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AchatListePage()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.shop_outlined),
+            title: const Text('Ajouter un achat'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AjouterAchatPage()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Parametres'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsPage()),
+              );
+            },
+          ),
+        ],
       ),
+    ),
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -794,6 +1054,135 @@ class _ToutesLesListesPageState extends State<ToutesLesListesPage> {
         title: const Text('Toutes les Listes'),
         backgroundColor: Colors.blueAccent,
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+              ),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/ic_launcher.png', // Replace with your app icon path
+                    height: 72,
+                    width: 72,
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Littératus',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Accueil'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Littératus')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.book_sharp),
+              title: const Text('Tous les livres'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BooksPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.checklist),
+              title: const Text('Tous les listes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ToutesLesListesPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.storage),
+              title: const Text('Tous les livres en db'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PBooksPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.book_online),
+              title: const Text('Ajouter un livre'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddBookPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text('Tous les achats'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AchatListePage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shop_outlined),
+              title: const Text('Ajouter un achat'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AjouterAchatPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.pie_chart),
+              title: const Text('Répartition du budget'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BudgetPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.pie_chart_outline_rounded),
+              title: const Text('Ajouter un secteur'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AjouterSecteurPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Parametres'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -905,11 +1294,29 @@ class _AjouterListePageState extends State<AjouterListePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ajouter une Liste'),
+        backgroundColor: Colors.blue,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+    body: Center(
+    child: Container(
+    width: 400,
+    padding: const EdgeInsets.all(16.0),
+    decoration: BoxDecoration(
+    color: Colors.white,
+    border: Border.all(
+    color: Colors.grey,
+    width: 2,
+    ),
+    borderRadius: BorderRadius.circular(10),
+    boxShadow: [
+    BoxShadow(
+    color: Colors.black12,
+    blurRadius: 6,
+    offset: Offset(0, 2),
+    ),
+    ],
+    ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: _titleController,
@@ -943,7 +1350,7 @@ class _AjouterListePageState extends State<AjouterListePage> {
           ],
         ),
       ),
-    );
+    ));
   }
 }
 
@@ -1000,7 +1407,7 @@ class _ListeDetailPageState extends State<ListeDetailPage> {
               return const Text('Liste non trouvée');
             } else {
               final liste = snapshot.data!;
-              return Text('Liste des livres de la liste ${liste.title}');
+              return Text('Livres de la liste "${liste.title}"');
             }
           },
         ),
@@ -1062,7 +1469,7 @@ class _ListeDetailPageState extends State<ListeDetailPage> {
                                   ),
                                 ),
                                 Text(
-                                  '${totalPrix.toStringAsFixed(2)} dh',
+                                  '${totalPrix.toStringAsFixed(2)} € (${(totalPrix*10).toStringAsFixed(2)} dh)',
                                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -1135,6 +1542,135 @@ class _AchatListePageState extends State<AchatListePage> {
       appBar: AppBar(
         title: const Text('Liste des Achats'),
         backgroundColor: Colors.blue,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+              ),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/ic_launcher.png', // Replace with your app icon path
+                    height: 72,
+                    width: 72,
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Littératus',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Accueil'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Littératus')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.book_sharp),
+              title: const Text('Tous les livres'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BooksPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.checklist),
+              title: const Text('Tous les listes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ToutesLesListesPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.storage),
+              title: const Text('Tous les livres en db'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PBooksPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.book_online),
+              title: const Text('Ajouter un livre'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddBookPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text('Tous les achats'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AchatListePage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shop_outlined),
+              title: const Text('Ajouter un achat'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AjouterAchatPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.pie_chart),
+              title: const Text('Répartition du budget'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BudgetPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.pie_chart_outline_rounded),
+              title: const Text('Ajouter un secteur'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AjouterSecteurPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Parametres'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                );
+              },
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -1334,13 +1870,32 @@ class _AjouterAchatPageState extends State<AjouterAchatPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ajouter un Achat'),
+        backgroundColor: Colors.blueAccent,
+
       ),
-      body: Padding(
+      body: Center(
+        child: Container(
+        width: 400,
         padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+        color: Colors.grey,
+        width: 2,
+        ),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+        BoxShadow(
+        color: Colors.black12,
+        blurRadius: 6,
+        offset: Offset(0, 2),
+        ),
+        ],
+        ),
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
                 controller: _titleController,
@@ -1423,7 +1978,339 @@ class _AjouterAchatPageState extends State<AjouterAchatPage> {
           ),
         ),
       ),
+    ));
+  }
+}
+
+
+class BudgetPage extends StatefulWidget {
+  const BudgetPage({Key? key}) : super(key: key);
+
+  @override
+  _BudgetPageState createState() => _BudgetPageState();
+}
+class _BudgetPageState extends State<BudgetPage> {
+  late Future<List<Secteur>> _secteursFuture;
+  final double totalBudget = 5000.0; // Total budget
+
+  @override
+  void initState() {
+    super.initState();
+    _secteursFuture = _getSecteurs();
+  }
+
+  Future<List<Secteur>> _getSecteurs() async {
+    final dbHelper = DBHelper();
+    return await dbHelper.fetchSecteurs(); // Assuming you have a fetchSecteurs method in DBHelper
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2, // Number of tabs
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Répartition du budget'),
+          backgroundColor: Colors.blueAccent,
+          bottom: const TabBar(
+            labelColor: Colors.red,
+            unselectedLabelColor: Colors.white,
+            tabs: [
+              Tab(text: 'Liste des Secteurs'),
+              Tab(text: 'Répartition'), // Replace with your second tab name
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            _buildSecteursTab(),
+            _buildPieChartTab(),
+          ],
+        ),
+      ),
+    );
+  }
+  deleteSecteur(int id) async {
+    final dbHelper = DBHelper();
+    await dbHelper.deleteSecteur(id);
+    setState(() {
+      _secteursFuture = _getSecteurs();
+    });
+  }
+  Widget _buildSecteursTab() {
+    return Column(
+      children: [
+        Expanded(
+          child: Center(
+            child: FutureBuilder<List<Secteur>>(
+              future: _secteursFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Erreur: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Text('Aucun secteur trouvé.');
+                }
+
+                final secteurs = snapshot.data!;
+                return Container(
+                  width: 600,
+                  padding: const EdgeInsets.all(16.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: secteurs.length,
+                    itemBuilder: (context, index) {
+                      final secteur = secteurs[index];
+                      return Container(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                            bottom: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            secteur.title,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.left,
+                          ),
+                          subtitle: Text(
+                            '${secteur.prix.toStringAsFixed(2)} dh',
+                            textAlign: TextAlign.left,
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () async {
+                              await deleteSecteur(secteur.id);
+                              setState(() {
+                                _secteursFuture = _getSecteurs(); // Rafraîchir la liste après suppression
+                              });
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AjouterSecteurPage()),
+              );
+            },
+            child: const Text('Ajouter un secteur'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPieChartTab() {
+    return FutureBuilder<List<Secteur>>(
+      future: _secteursFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Text('Erreur: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('Aucun secteur trouvé.'));
+        }
+
+        final secteurs = snapshot.data!;
+        double usedBudget = secteurs.fold(0.0, (sum, secteur) => sum + secteur.prix);
+        double remainingBudget = totalBudget - usedBudget;
+
+        List<PieChartSectionData> sections = secteurs.map((secteur) {
+          double percentage = (secteur.prix / totalBudget) * 100;
+          return PieChartSectionData(
+            value: secteur.prix,
+            title: '${secteur.title} : ${percentage.toStringAsFixed(1)}%',
+            color: Colors.primaries[secteurs.indexOf(secteur) % Colors.primaries.length],
+          );
+        }).toList();
+
+        if (remainingBudget > 0) {
+          sections.add(PieChartSectionData(
+            value: remainingBudget,
+            title: '${(remainingBudget / totalBudget * 100).toStringAsFixed(1)}% Libre',
+            color: Colors.grey,
+          ));
+        }
+
+        return Column(
+          children: [
+            Center(
+              child: Container(
+                width: 300,
+                height: 300,
+                padding: const EdgeInsets.all(16.0),
+                child: PieChart(
+                  PieChartData(
+                    sections: sections,
+                    centerSpaceRadius: 60,
+                    borderData: FlBorderData(show: false),
+                    sectionsSpace: 0,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20), // Spacing between chart and legend
+            Container(
+              width: 300,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: sections.map((section) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 20,
+                          height: 20,
+                          color: section.color,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          '${section.title}: ${section.value.toStringAsFixed(2)} dh',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            SizedBox(height: 20), // Spacing before total amount
+            Text(
+              'Total Budget: ${totalBudget.toStringAsFixed(2)} dh',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ],
+        );
+      },
     );
   }
 }
 
+
+
+
+class AjouterSecteurPage extends StatefulWidget {
+  const AjouterSecteurPage({Key? key}) : super(key: key);
+
+  @override
+  _AjouterSecteurPageState createState() => _AjouterSecteurPageState();
+}
+
+class _AjouterSecteurPageState extends State<AjouterSecteurPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
+  final _prixController = TextEditingController();
+
+  Future<void> _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      final secteur = Secteur.withoutId(
+        title: _titleController.text,
+        prix: double.tryParse(_prixController.text) ?? 0.0,
+      );
+
+      final dbHelper = DBHelper();
+      await dbHelper.insertSecteur(secteur);
+
+      // Redirection vers la page "Répartition du budget"
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const BudgetPage()),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Ajouter un secteur'),
+        backgroundColor: Colors.blueAccent,
+      ),
+      body: Center(
+        child: Container(
+          width: 400,
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              color: Colors.grey,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 6,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _titleController,
+                  decoration: const InputDecoration(
+                    labelText: 'Titre',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer un titre';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: _prixController,
+                  decoration: const InputDecoration(
+                    labelText: 'Prix',
+                  ),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer un prix';
+                    }
+                    if (double.tryParse(value) == null) {
+                      return 'Veuillez entrer un prix valide';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: _submitForm,
+                  child: const Text('Ajouter'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

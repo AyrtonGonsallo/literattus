@@ -4,7 +4,8 @@ import 'package:path/path.dart';
 
 import 'models/achat.dart';
 import 'models/book.dart';
-import 'models/liste.dart'; // Import your Liste model
+import 'models/liste.dart';
+import 'models/secteur.dart'; // Import your Liste model
 
 class DBHelper {
   static final DBHelper _instance = DBHelper._internal();
@@ -56,6 +57,14 @@ class DBHelper {
             status INTEGER
           )
         ''');
+        await db.execute('''
+          CREATE TABLE secteurs(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            prix REAL
+          )
+        ''');
+
       },
 
     );
@@ -157,6 +166,25 @@ class DBHelper {
     } else {
       return null; // Return null if no list was found with the given ID
     }
+  }
+
+  // Methods for Secteurs
+  Future<void> insertSecteur(Secteur secteur) async {
+    final db = await database;
+    await db.insert('secteurs', secteur.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<void> deleteSecteur(int id) async {
+    final db = await database;
+    await db.delete('secteurs', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<List<Secteur>> fetchSecteurs() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('secteurs');
+    return List.generate(maps.length, (i) {
+      return Secteur.fromMap(maps[i]);
+    });
   }
 
 }
