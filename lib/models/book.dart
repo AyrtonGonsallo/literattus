@@ -5,6 +5,8 @@ class Book {
   final int id;
   final String title;
   final String imagePath;
+  final String description;
+
   final double prix;
   final DateTime dateParution;
   final String auteur;
@@ -16,6 +18,7 @@ class Book {
     required this.id,
     required this.title,
     required this.imagePath,
+    required this.description,
     required this.prix,
     required this.dateParution,
     required this.auteur,
@@ -28,6 +31,7 @@ class Book {
     required this.title,
     required this.imagePath,
     required this.prix,
+    required this.description,
     required this.dateParution,
     required this.auteur,
     required this.type,
@@ -43,6 +47,7 @@ class Book {
       prix: map['prix'] as double? ?? 0.0,
       dateParution: DateTime.parse(map['dateParution'] as String? ?? DateTime.now().toIso8601String()),
       auteur: map['auteur'] as String? ?? '',
+      description: map['description'] as String? ?? '',
       type: map['type'] as String? ?? '',
       listId: map['listId'] as int?, // Handle optional listId
     );
@@ -55,10 +60,36 @@ class Book {
       'title': title,
       'imagePath': imagePath,
       'prix': prix,
+      'description':description,
       'dateParution': dateParution.toIso8601String(),
       'auteur': auteur,
       'type': type,
       'listId': listId, // Handle optional listId
     };
+  }
+
+  // CopyWith method to create a copy of a Book with modified fields
+  Book copyWith({
+    int? id,
+    String? title,
+    String? imagePath,
+    double? prix,
+    String? description,
+    DateTime? dateParution,
+    String? auteur,
+    String? type,
+    int? listId,
+  }) {
+    return Book(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      imagePath: imagePath ?? this.imagePath,
+      prix: prix ?? this.prix,
+      description: description ?? this.description,
+      dateParution: dateParution ?? this.dateParution,
+      auteur: auteur ?? this.auteur,
+      type: type ?? this.type,
+      listId: listId ?? this.listId,
+    );
   }
 }

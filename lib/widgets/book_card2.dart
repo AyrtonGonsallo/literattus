@@ -8,8 +8,10 @@ import 'dart:io'; // Import this for File
 class BookCard2 extends StatelessWidget {
   final Book book;
   final VoidCallback onDelete;
+  final VoidCallback onSee;
+  final VoidCallback onUpdate;
 
-  const BookCard2({super.key, required this.book, required this.onDelete});
+  const BookCard2({super.key, required this.book, required this.onDelete,required this.onSee,required this.onUpdate});
 
   @override
   Widget build(BuildContext context) {
@@ -70,20 +72,27 @@ class BookCard2 extends StatelessWidget {
                     ),
                   ),
                   // Bouton de suppression
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                      icon: Icon(Icons.delete, color: Colors.white),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [ IconButton(
+                      icon: Icon(Icons.delete, color: Colors.white,size: 15,),
                       onPressed: onDelete,
                     ),
+                   IconButton(
+                      icon: Icon(Icons.visibility, color: Colors.white,size: 15,),
+                      onPressed: onSee,
+                    ),
+                    IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.white,size: 15,),
+                    onPressed: onUpdate
                   ),
                 ],
               ),
-            ),
+            ],
           ),
-        ],
+    ),
       ),
-    );
+    ]));
   }
 
   // Helper method to get the correct image widget

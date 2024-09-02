@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:litteratus/widgets/book_card2.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'db_helper.dart';
 import 'models/achat.dart';
 import 'models/book.dart';
@@ -14,8 +16,9 @@ import 'widgets/book_card.dart';
 import 'package:image_picker/image_picker.dart'; // Pour sélectionner une image
 import 'package:path/path.dart' as path;
 
-void main() {
-
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('fr_FR', null);
   runApp(const MyApp());
 }
 
@@ -137,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               leading: const Icon(Icons.checklist),
-              title: const Text('Tous les listes'),
+              title: const Text('Toutes les listes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -310,148 +313,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 class BooksPage extends StatelessWidget {
-  const BooksPage({super.key});
+  const BooksPage({super.key}
+      );
 
   @override
   Widget build(BuildContext context) {
     // Define a static list of books with all properties
     final List<Book> books = [
-      Book.withoutId(
-        title: 'Le duel sous l\'Ancien Régime',
-        imagePath: 'assets/duel.webp',
-        prix: 9.99,
-        dateParution: DateTime(1982, 1, 1),
-        auteur: 'Micheline Cuénin, Yves-Marie Bercé, Jacques Callot, Evelyne Lever, Maurice Lever',
-        type: 'ePub',
-      ),
-      Book.withoutId(
-        title: 'La femme et le soldat - Viols et violences de guerre du Moyen Age à nos jours',
-        imagePath: 'assets/femmesoldat.webp',
-        prix: 14.99,
-        dateParution: DateTime(2012, 1, 21),
-        auteur: 'Maurice Agulhon',
-        type: 'PDF',
-      ),
-      Book.withoutId(
-        title: 'HISTOIRE DU VAGABONDAGE. Du Moyen Age à nos jours',
-        imagePath: 'assets/vagabondage.webp',
-        prix: 14.99,
-        dateParution: DateTime(1998, 11, 18),
-        auteur: 'Maurice Agulhon',
-        type: 'ePub',
-      ),
-      Book.withoutId(
-        title: 'La mort, l\'au-delà et les autres mondes',
-        imagePath: 'assets/mort.webp',
-        prix: 15.99,
-        dateParution: DateTime(2019, 2, 20),
-        auteur: 'Claude Lecouteux',
-        type: 'PDF',
-      ),
-      Book.withoutId(
-        title: 'Rabelais en Vendée',
-        imagePath: 'assets/rabelais.webp',
-        prix: 9.99,
-        dateParution: DateTime(2004, 6, 1),
-        auteur: 'Gilbert Prouteau',
-        type: 'PDF',
-      ),
-      Book.withoutId(
-        title: 'Rire avec Dieu - L\'humour chez les chrétiens, les juifs et les musulmans',
-        imagePath: 'assets/rire.webp',
-        prix: 17.99,
-        dateParution: DateTime(2019, 5, 9),
-        auteur: 'Marc Lienhard',
-        type: 'ePub',
-      ),
-      Book.withoutId(
-        title: 'Vivre la misère au Moyen Age',
-        imagePath: 'assets/misere.webp',
-        prix: 17.99,
-        dateParution: DateTime(2023, 4, 7),
-        auteur: 'Jean-Louis Roch',
-        type: 'ePub',
-      ),
-      Book.withoutId(
-        title: 'Brigands, bandits, malfaiteurs - Incroyables histoires des crapules, arsouilles, monte-en-l\'air, canailles et contrebandiers de tous les temps',
-        imagePath: 'assets/brigants.webp',
-        prix: 9.99,
-        dateParution: DateTime(2017, 9, 11),
-        auteur: 'Bernard Hautecloque',
-        type: 'Multi-format',
-      ),
-      Book.withoutId(
-        title: 'L\'amoureuse histoire d\'Auguste Comte et de Clotilde de Vaux',
-        imagePath: 'assets/augusteclaute.webp',
-        prix: 10.99,
-        dateParution: DateTime(1917, 1, 1),
-        auteur: 'Charles de Rouvre',
-        type: 'ePub',
-      ),
-      Book.withoutId(
-        title: 'John Milton, poète combattant',
-        imagePath: 'assets/milton.webp',
-        prix: 9.99,
-        dateParution: DateTime(1959, 1, 1),
-        auteur: 'Emile Saillens',
-        type: 'ePub',
-      ),
-      Book.withoutId(
-        title: 'Kierkegaard, écrire ou mourir',
-        imagePath: 'assets/kierkegaard.webp',
-        prix: 12.99,
-        dateParution: DateTime(2015, 1, 1),
-        auteur: 'Stéphane Vial',
-        type: 'ePub',
-      ),
-      Book.withoutId(
-        title: 'Esprit, es-tu là? Histoires du surnaturel, de l\'Antiquité à nos jours',
-        imagePath: 'assets/surnaturel.webp',
-        prix: 12.99,
-        dateParution: DateTime(2013, 11, 8),
-        auteur: 'Vivianne Perret',
-        type: 'ePub',
-      ),
-      Book.withoutId(
-        title: 'Armageddon - Une histoire de la fin du monde',
-        imagePath: 'assets/findumonde.webp',
-        prix: 14.99,
-        dateParution: DateTime(2024, 3, 6),
-        auteur: 'Régis Burnet, Pierre-Edouard Detal',
-        type: 'ePub',
-      ),
-      Book.withoutId(
-        title: 'L\'Apologétique chrétienne - Expressions de la pensée religieuse, de l\'Antiquité à nos jours',
-        imagePath: 'assets/apologetique.webp',
-        prix: 11.99,
-        dateParution: DateTime(2019, 9, 3),
-        auteur: 'Didier Boisson, Elisabeth Pinto-Mathieu',
-        type: 'Multi-format',
-      ),
-      Book.withoutId(
-        title: 'La Prostitution devant le philosophe',
-        imagePath: 'assets/prostphil.webp',
-        prix: 1.99,
-        dateParution: DateTime(2016, 8, 5),
-        auteur: 'Charles Richard',
-        type: 'Multi-format',
-      ),
-      Book.withoutId(
-        title: 'Dis socrate, c\'est quoi l\'amour ? - Quand les philosophes discutent du plus beau des sentiments',
-        imagePath: 'assets/socrateamour.webp',
-        prix: 13.99,
-        dateParution: DateTime(2021, 10, 4),
-        auteur: 'Nora Kreft',
-        type: 'ePub',
-      ),
-      Book.withoutId(
-        title: 'Le vrai métier des philosophes',
-        imagePath: 'assets/vraimetier.webp',
-        prix: 10.99,
-        dateParution: DateTime(2024, 5, 29),
-        auteur: 'Nassim El Kabli',
-        type: 'ePub',
-      ),
+
     ];
 
     return Scaffold(
@@ -507,7 +376,7 @@ class BooksPage extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.checklist),
-              title: const Text('Tous les listes'),
+              title: const Text('Toutes les listes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -614,22 +483,123 @@ class BooksPage extends StatelessWidget {
   }
 }
 
-
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
+
+
+
+
+  Future<void> _exportDatabase(BuildContext context) async {
+    try {
+      String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+
+      if (selectedDirectory == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Export cancelled')),
+        );
+        return; // User canceled the picker
+      }
+
+      final exportPath = path.join(selectedDirectory, 'litteratus.db');
+
+      final dbFile = File(await DBHelper().getDatabasePath());
+      final exportFile = File(exportPath);
+
+      await dbFile.copy(exportFile.path);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Database exported to: $exportPath')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error exporting database: $e')),
+      );
+    }
+  }
+
+  Future<void> _clearDatabase(BuildContext context) async {
+    try {
+      final db = await DBHelper().database;
+
+      await db.delete('books');
+      await db.delete('listes');
+      await db.delete('achats');
+      await db.delete('secteurs');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Database cleared successfully')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error clearing database: $e')),
+      );
+    }
+  }
+
+  Future<void> _importDatabase(BuildContext context) async {
+    try {
+      String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+
+      if (selectedDirectory == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Import cancelled')),
+        );
+        return; // User canceled the picker
+      }
+
+      final importPath = path.join(selectedDirectory, 'litteratus.db');
+
+      final importFile = File(importPath);
+      final dbFile = File(await DBHelper().getDatabasePath());
+
+      if (await importFile.exists()) {
+        await importFile.copy(dbFile.path);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Database imported from: $importPath')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Import file not found at: $importPath')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error importing database: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
+        backgroundColor: Colors.blueAccent,
       ),
-      body: const Center(
-        child: Text('This is the Settings page'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () => _exportDatabase(context),
+              child: const Text('Exporter la base de données'),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => _clearDatabase(context),
+              child: const Text('Éffacer la base de données'),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => _importDatabase(context),
+              child: const Text('Importer la base de données'),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
 
 
 class PBooksPage extends StatefulWidget {
@@ -646,6 +616,7 @@ class _PBooksPageState extends State<PBooksPage> {
   void initState() {
     super.initState();
     _booksFuture = _getBooks();
+
   }
 
   Future<List<Book>> _getBooks() async {
@@ -659,6 +630,25 @@ class _PBooksPageState extends State<PBooksPage> {
     setState(() {
       _booksFuture = _getBooks(); // Update the book list after deletion
     });
+  }
+
+
+  void _seeBook(int id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ViewBookPage(bookId: id),
+      ),
+    );
+  }
+
+  void _updateBook(int id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UpdateBookPage(bookId: id),
+      ),
+    );
   }
 
   @override
@@ -715,7 +705,7 @@ class _PBooksPageState extends State<PBooksPage> {
           ),
           ListTile(
             leading: const Icon(Icons.checklist),
-            title: const Text('Tous les listes'),
+            title: const Text('Toutes les listes'),
             onTap: () {
               Navigator.push(
                 context,
@@ -812,6 +802,8 @@ class _PBooksPageState extends State<PBooksPage> {
                           return BookCard2(
                             book: books[index],
                             onDelete: () => _deleteBook(books[index].id),
+                            onSee: () => _seeBook(books[index].id),
+                            onUpdate: () => _updateBook(books[index].id),
                           );
                         },
                       );
@@ -841,6 +833,257 @@ class _PBooksPageState extends State<PBooksPage> {
 
 
 
+
+class UpdateBookPage extends StatefulWidget {
+  final int bookId;
+
+  const UpdateBookPage({Key? key, required this.bookId}) : super(key: key);
+
+  @override
+  _UpdateBookPageState createState() => _UpdateBookPageState();
+}
+
+class _UpdateBookPageState extends State<UpdateBookPage> {
+  final _formKey = GlobalKey<FormState>();
+  late Book _book;
+  List<Liste> listes = [];
+  int? selectedListId;
+  final List<String> types = ['Epub', 'Pdf'];
+  String? selectedType;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchBookDetails();
+    _fetchListes();
+  }
+
+  Future<void> _fetchListes() async {
+    final dbHelper = DBHelper();
+    final fetchedListes = await dbHelper.fetchListes();
+    setState(() {
+      listes = fetchedListes;
+    });
+  }
+
+  Future<void> _fetchBookDetails() async {
+    final book = await DBHelper().getBookById(widget.bookId);
+    setState(() {
+      _book = book;
+      selectedType = book.type;
+      selectedListId = book.listId; // Assuming Book has listId field
+    });
+  }
+
+  Future<void> _updateBook() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      final updatedBook = _book.copyWith(
+        type: selectedType!,
+        listId: selectedListId, // Include listId if needed
+      );
+
+      await DBHelper().updateBook(updatedBook);
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Update Book'),
+        backgroundColor: Colors.blue,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                initialValue: _book.title,
+                decoration: const InputDecoration(labelText: 'Title'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a title';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _book = _book.copyWith(title: value!);
+                },
+              ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<String>(
+                decoration: const InputDecoration(labelText: 'Type'),
+                value: selectedType,
+                items: types.map((String type) {
+                  return DropdownMenuItem<String>(
+                    value: type,
+                    child: Text(type),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedType = newValue;
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a type';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<int>(
+                decoration: const InputDecoration(labelText: 'Liste'),
+                value: selectedListId,
+                items: listes.map((Liste liste) {
+                  return DropdownMenuItem<int>(
+                    value: liste.id,
+                    child: Text(liste.title),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedListId = newValue;
+                  });
+                },
+                validator: (value) {
+                  // Optional: Add validation if needed
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _updateBook,
+                child: const Text('Update Book'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+class ViewBookPage extends StatelessWidget {
+  final int bookId;
+
+  const ViewBookPage({Key? key, required this.bookId}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Map<String, dynamic>>(
+      future: _fetchBookAndListData(bookId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData) {
+          return const Center(child: Text('Book not found'));
+        }
+
+        final book = snapshot.data!['book'] as Book;
+        final listName = snapshot.data!['listName'] as String?;
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(book.title),
+            backgroundColor: Colors.blue,
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Display the book title
+                Text(
+                  book.title,
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16),
+                // Display the book image
+                Container(
+                  width: double.infinity, // Make the container full width
+                  height: 400, // Set a fixed height for the image
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: book.imagePath.isNotEmpty
+                          ? FileImage(File(book.imagePath))
+                          : AssetImage('assets/augusteclaute.webp') as ImageProvider,
+                      fit: BoxFit.cover, // Adjust the fit according to your needs
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Display the book description
+                Text(
+                  'Description: ${book.description ?? 'No description available'}',
+                  style: const TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 16),
+                // Display the book details in a 3-column layout
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: Text('Author: ${book.auteur}'),
+                    ),
+                    Expanded(
+                      child: Text('Date: ${book.dateParution?.toLocal().toString().split(' ')[0]}'),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+
+                    Expanded(
+                      child: Text('Type: ${book.type}'),
+                    ),
+                    Expanded(
+                      child: Text('Liste: ${listName}'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+
+  }
+
+  Future<Map<String, dynamic>> _fetchBookAndListData(int bookId) async {
+    final book = await DBHelper().getBookById(bookId);
+    final listName = book.listId != null ? await _fetchListName(book.listId!) : null;
+
+    return {
+      'book': book,
+      'listName': listName,
+    };
+  }
+
+  Future<String?> _fetchListName(int listId) async {
+    final liste = await DBHelper().fetchListe(listId);
+    return liste?.title;
+  }
+}
+
+
+
+
 class AddBookPage extends StatefulWidget {
   const AddBookPage({super.key});
 
@@ -852,16 +1095,15 @@ class _AddBookPageState extends State<AddBookPage> {
   final _formKey = GlobalKey<FormState>();
   final List<String> types = ['Epub', 'Pdf'];
   String? selectedType;
-  int? selectedListId; // New field for selected list ID
-  List<Liste> listes = []; // List of Liste objects
-
-  // Champs du livre
+  int? selectedListId;
+  List<Liste> listes = [];
   String title = '';
   String imagePath = "";
   double prix = 0.0;
   DateTime? dateParution;
   String auteur = '';
   String type = '';
+  String description = ''; // Champ de description
 
   @override
   void initState() {
@@ -881,7 +1123,6 @@ class _AddBookPageState extends State<AddBookPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      // Créer un objet Book avec les données du formulaire
       final book = Book.withoutId(
         title: title,
         imagePath: imagePath,
@@ -889,10 +1130,10 @@ class _AddBookPageState extends State<AddBookPage> {
         dateParution: dateParution!,
         auteur: auteur,
         type: type,
-        listId: selectedListId, // Add the selected list ID
+        listId: selectedListId,
+        description: description, // Save description
       );
 
-      // Insérer le livre dans la base de données
       await DBHelper().insertBook(book);
 
       print('Book saved to the database');
@@ -901,25 +1142,19 @@ class _AddBookPageState extends State<AddBookPage> {
 
   Future<void> _pickImage() async {
     try {
-      // Open gallery to select an image
       final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
-        // Get the directory of the app's documents
-        final directory = await getExternalStorageDirectory(); // Use getExternalStorageDirectory for Android
-
-        // Create a custom folder if it doesn't exist
+        final directory = await getExternalStorageDirectory();
         final String customFolder = '${directory!.path}/Imageslivres';
         await Directory(customFolder).create(recursive: true);
 
         final fileName = path.basename(pickedFile.path);
         final filePath = '$customFolder/$fileName';
 
-        // Copy the selected file to the custom folder
         final File imageFile = File(pickedFile.path);
         final File savedImage = await imageFile.copy(filePath);
 
-        // Update the state with the path of the copied file
         setState(() {
           imagePath = savedImage.path;
         });
@@ -928,7 +1163,6 @@ class _AddBookPageState extends State<AddBookPage> {
       }
     } catch (e) {
       print('Error selecting image: $e');
-      // Display an error message to the user if needed
     }
   }
 
@@ -953,160 +1187,177 @@ class _AddBookPageState extends State<AddBookPage> {
         title: const Text('Ajouter un livre'),
         backgroundColor: Colors.blue,
       ),
-      body: Center(
-        child: Container(
-          width: 400,
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-              color: Colors.grey,
-              width: 2,
-            ),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 6,
-                offset: Offset(0, 2),
+      body: SingleChildScrollView( // Wrap with SingleChildScrollView
+        child: Center(
+          child: Container(
+            width: 400,
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: Colors.grey,
+                width: 2,
               ),
-            ],
-          ),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Titre'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer un titre';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    title = value!;
-                  },
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(imagePath == null
-                          ? 'Aucune image sélectionnée'
-                          : 'Image: ${path.basename(imagePath!)}'),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.image),
-                      onPressed: _pickImage,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Prix'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer un prix';
-                    }
-                    if (double.tryParse(value) == null) {
-                      return 'Veuillez entrer un prix valide';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    prix = double.parse(value!);
-                  },
-                ),
-                const SizedBox(height: 16),
-                ListTile(
-                  title: Text(dateParution == null
-                      ? 'Sélectionner une date de parution'
-                      : 'Date de parution: ${dateParution!.toLocal()}'.split(' ')[0]),
-                  trailing: const Icon(Icons.calendar_today),
-                  onTap: () => _selectDate(context),
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Auteur'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer un auteur';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    auteur = value!;
-                  },
-                ),
-                const SizedBox(height: 16),
-                DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(labelText: 'Type'),
-                  value: selectedType,
-                  items: types.map((String type) {
-                    return DropdownMenuItem<String>(
-                      value: type,
-                      child: Text(type),
-                    );
-                  }).toList(),
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedType = newValue;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Veuillez sélectionner un type';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    type = value!;
-                  },
-                ),
-                const SizedBox(height: 16),
-                DropdownButtonFormField<int>(
-                  decoration: const InputDecoration(labelText: 'Liste'),
-                  value: selectedListId,
-                  items: listes.map((Liste liste) {
-                    return DropdownMenuItem<int>(
-                      value: liste.id,
-                      child: Text(liste.title),
-                    );
-                  }).toList(),
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedListId = newValue;
-                    });
-                  },
-                  validator: (value) {
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      print('Titre: $title');
-                      print('Image Path: $imagePath');
-                      print('Prix: $prix');
-                      print('Date de parution: $dateParution');
-                      print('Auteur: $auteur');
-                      print('Type: $type');
-                      print('Liste ID: $selectedListId'); // Print the selected list ID
-                      _saveBook();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const PBooksPage()),
-                      );
-                    }
-                  },
-                  child: const Text('Ajouter le livre'),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 6,
+                  offset: Offset(0, 2),
                 ),
               ],
+            ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: 'Titre'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Veuillez entrer un titre';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      title = value!;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(imagePath.isEmpty
+                            ? 'Aucune image sélectionnée'
+                            : 'Image: ${path.basename(imagePath)}'),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.image),
+                        onPressed: _pickImage,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: 'Prix'),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Veuillez entrer un prix';
+                      }
+                      if (double.tryParse(value) == null) {
+                        return 'Veuillez entrer un prix valide';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      prix = double.parse(value!);
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  ListTile(
+                    title: Text(dateParution == null
+                        ? 'Sélectionner une date de parution'
+                        : 'Date de parution: ${dateParution!.toLocal()}'.split(' ')[0]),
+                    trailing: const Icon(Icons.calendar_today),
+                    onTap: () => _selectDate(context),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: 'Auteur'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Veuillez entrer un auteur';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      auteur = value!;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: 'Description'),
+                    maxLines: 5,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Veuillez entrer une description';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      description = value!;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(labelText: 'Type'),
+                    value: selectedType,
+                    items: types.map((String type) {
+                      return DropdownMenuItem<String>(
+                        value: type,
+                        child: Text(type),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedType = newValue;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Veuillez sélectionner un type';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      type = value!;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  DropdownButtonFormField<int>(
+                    decoration: const InputDecoration(labelText: 'Liste'),
+                    value: selectedListId,
+                    items: listes.map((Liste liste) {
+                      return DropdownMenuItem<int>(
+                        value: liste.id,
+                        child: Text(liste.title),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedListId = newValue;
+                      });
+                    },
+                    validator: (value) {
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        print('Titre: $title');
+                        print('Image Path: $imagePath');
+                        print('Prix: $prix');
+                        print('Date de parution: $dateParution');
+                        print('Auteur: $auteur');
+                        print('Type: $type');
+                        print('Liste ID: $selectedListId');
+                        print('Description: $description'); // Print description
+                        _saveBook();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const PBooksPage()),
+                        );
+                      }
+                    },
+                    child: const Text('Ajouter le livre'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -1114,6 +1365,7 @@ class _AddBookPageState extends State<AddBookPage> {
     );
   }
 }
+
 
 
 
@@ -1202,7 +1454,7 @@ class _ToutesLesListesPageState extends State<ToutesLesListesPage> {
             ),
             ListTile(
               leading: const Icon(Icons.checklist),
-              title: const Text('Tous les listes'),
+              title: const Text('Toutes les listes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -1691,7 +1943,7 @@ class _AchatListePageState extends State<AchatListePage> {
             ),
             ListTile(
               leading: const Icon(Icons.checklist),
-              title: const Text('Tous les listes'),
+              title: const Text('Toutes les listes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -1773,177 +2025,181 @@ class _AchatListePageState extends State<AchatListePage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: FutureBuilder<List<Achat>>(
-                  future: _achatsFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
+  padding: const EdgeInsets.all(16.0),
+  child: Center(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: FutureBuilder<List<Achat>>(
+            future: _achatsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-                    if (snapshot.hasError) {
-                      return Center(child: Text('Erreur: ${snapshot.error}'));
-                    }
+              if (snapshot.hasError) {
+                return Center(child: Text('Erreur: ${snapshot.error}'));
+              }
 
-                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('Aucun achat trouvé.'));
-                    }
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text('Aucun achat trouvé.'));
+              }
 
-                    final achats = snapshot.data!;
-                    final double totalPrix = achats
-                        .where((achat) => achat.status == AchatStatus.enCours)
-                        .fold(0.0, (sum, achat) => sum + achat.prix);
+              final achats = snapshot.data!;
+              final double totalPrix = achats
+                  .where((achat) => achat.status == AchatStatus.enCours)
+                  .fold(0.0, (sum, achat) => sum + achat.prix);
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: DataTable(
-                              columnSpacing: 16,
-                              dataRowHeight: 64,
-                              headingRowHeight: 56,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey.shade300),
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical, // Enable vertical scrolling
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                          columnSpacing: 16,
+                          dataRowHeight: 64,
+                          headingRowHeight: 56,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade300),
+                          ),
+                          columns: [
+                            DataColumn(
+                              label: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text(
+                                  'Titre',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
                               ),
-                              columns: [
-                                DataColumn(
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                    child: Text(
-                                      'Titre',
-                                      style: TextStyle(
-                                        color: Colors.blueAccent,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20
-                                      ),
-                                    ),
+                            ),
+                            DataColumn(
+                              label: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text(
+                                  'Prix',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
                                   ),
                                 ),
-                                DataColumn(
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                    child: Text(
-                                      'Prix',
-                                      style: TextStyle(
-                                        color: Colors.blueAccent,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20
-                                      ),
-                                    ),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text(
+                                  'Lieu',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
                                   ),
                                 ),
-                                DataColumn(
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                    child: Text(
-                                      'Lieu',
-                                      style: TextStyle(
-                                        color: Colors.blueAccent,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20
-                                      ),
-                                    ),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text(
+                                  'Statut',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
                                   ),
                                 ),
-                                DataColumn(
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                    child: Text(
-                                      'Statut',
-                                      style: TextStyle(
-                                        color: Colors.blueAccent,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20
-                                      ),
-                                    ),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text(
+                                  'Actions',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
                                   ),
                                 ),
-                                DataColumn(
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                    child: Text(
-                                      'Actions',
-                                      style: TextStyle(
-                                        color: Colors.blueAccent,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20
+                              ),
+                            ),
+                          ],
+                          rows: achats.map((achat) {
+                            return DataRow(
+                              cells: [
+                                DataCell(Text(achat.title)),
+                                DataCell(Text('${achat.prix.toStringAsFixed(2)} dh')),
+                                DataCell(Text(achat.lieu)),
+                                DataCell(Text(achat.status == AchatStatus.enCours ? 'En cours' : 'Terminé')),
+                                DataCell(
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                          achat.status == AchatStatus.enCours ? Icons.check : Icons.cancel,
+                                          color: achat.status == AchatStatus.enCours ? Colors.green : Colors.red,
+                                        ),
+                                        onPressed: () => _changeStatus(achat),
                                       ),
-                                    ),
+                                      IconButton(
+                                        icon: const Icon(Icons.delete, color: Colors.red),
+                                        onPressed: () => _deleteAchat(achat.id),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
-                              rows: achats.map((achat) {
-                                return DataRow(
-                                  cells: [
-                                    DataCell(Text(achat.title)),
-                                    DataCell(Text('${achat.prix.toStringAsFixed(2)} dh')),
-                                    DataCell(Text(achat.lieu)),
-                                    DataCell(Text(achat.status == AchatStatus.enCours ? 'En cours' : 'Terminé')),
-                                    DataCell(
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          IconButton(
-                                            icon: Icon(
-                                              achat.status == AchatStatus.enCours ? Icons.check : Icons.cancel,
-                                              color: achat.status == AchatStatus.enCours ? Colors.green : Colors.red,
-                                            ),
-                                            onPressed: () => _changeStatus(achat),
-                                          ),
-                                          IconButton(
-                                            icon: const Icon(Icons.delete, color: Colors.red),
-                                            onPressed: () => _deleteAchat(achat.id),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                            );
+                          }).toList(),
                         ),
-                        Container(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Total: ${totalPrix.toStringAsFixed(2)} dh',
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                              const SizedBox(width: 16), // Add spacing if needed
-                            ],
-                          ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Total: ${totalPrix.toStringAsFixed(2)} dh',
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
+                        const SizedBox(width: 16),
                       ],
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const AjouterAchatPage()),
-                    );
-                  },
-                  child: const Text('Ajouter un achat'),
-                ),
-              ),
-            ],
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AjouterAchatPage()),
+              );
+            },
+            child: const Text('Ajouter un achat'),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
     );
   }
 }
@@ -2168,7 +2424,7 @@ class _BudgetPageState extends State<BudgetPage> {
             ),
             ListTile(
               leading: const Icon(Icons.checklist),
-              title: const Text('Tous les listes'),
+              title: const Text('Toutes les listes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -2348,6 +2604,7 @@ class _BudgetPageState extends State<BudgetPage> {
         List<PieChartSectionData> sections = secteurs.map((secteur) {
           double percentage = (secteur.prix / totalBudget) * 100;
           return PieChartSectionData(
+            radius: 100,
             value: secteur.prix,
             title: '${secteur.title} : ${percentage.toStringAsFixed(1)}%',
             color: Colors.primaries[secteurs.indexOf(secteur) % Colors.primaries.length],
@@ -2356,6 +2613,7 @@ class _BudgetPageState extends State<BudgetPage> {
 
         if (remainingBudget > 0) {
           sections.add(PieChartSectionData(
+            radius: 100,
             value: remainingBudget,
             title: '${(remainingBudget / totalBudget * 100).toStringAsFixed(1)}% Libre',
             color: Colors.grey,
@@ -2366,13 +2624,13 @@ class _BudgetPageState extends State<BudgetPage> {
           children: [
             Center(
               child: Container(
-                width: 300,
+                width: 800,
                 height: 300,
                 padding: const EdgeInsets.all(16.0),
                 child: PieChart(
                   PieChartData(
                     sections: sections,
-                    centerSpaceRadius: 60,
+                    centerSpaceRadius: 40,
                     borderData: FlBorderData(show: false),
                     sectionsSpace: 0,
                   ),

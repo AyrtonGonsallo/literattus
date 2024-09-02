@@ -33,6 +33,7 @@ class DBHelper {
           CREATE TABLE books(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT,
+            description TEXT,
             imagePath TEXT,
             prix REAL,
             dateParution TEXT,
@@ -74,6 +75,34 @@ class DBHelper {
   Future<void> insertBook(Book book) async {
     final db = await database;
     await db.insert('books', book.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  // Method to get a book by its ID
+  Future<Book> getBookById(int id) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'books',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    if (maps.isNotEmpty) {
+      return Book.fromMap(maps.first); // Assuming you have a fromMap method in your Book model
+    } else {
+      throw Exception('Book not found');
+    }
+  }
+
+// Method to update a book
+  Future<void> updateBook(Book book) async {
+    final db = await database;
+
+    await db.update(
+      'books',
+      book.toMap(),
+      where: 'id = ?',
+      whereArgs: [book.id],
+    );
   }
 
   Future<void> deleteBook(int id) async {
@@ -237,6 +266,10 @@ class DBHelper {
       return Book.fromMap(maps[i]);
     });
   }
-
+// Add this method to get the database path
+  Future<String> getDatabasePath() async {
+    final directory = await getApplicationDocumentsDirectory();
+    return '${directory.path}/litteratus.db';
+  }
 
 }
