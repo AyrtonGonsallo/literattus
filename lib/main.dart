@@ -320,12 +320,164 @@ class BooksPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Define a static list of books with all properties
     final List<Book> books = [
-
+      Book.withoutId(
+        title: 'Le duel sous l\'Ancien Régime',
+        imagePath: 'assets/duel.webp',
+        prix: 9.99,
+        dateParution: DateTime(1982, 1, 1),
+        auteur: 'Micheline Cuénin, Yves-Marie Bercé, Jacques Callot, Evelyne Lever, Maurice Lever',
+        type: 'ePub',
+        description: 'Explore the intricate world of duels during the Ancien Régime, delving into their social and legal implications.',
+      ),
+      Book.withoutId(
+        title: 'La femme et le soldat - Viols et violences de guerre du Moyen Age à nos jours',
+        imagePath: 'assets/femmesoldat.webp',
+        prix: 14.99,
+        dateParution: DateTime(2012, 1, 21),
+        auteur: 'Maurice Agulhon',
+        type: 'PDF',
+        description: 'An in-depth examination of the violence endured by women during wartime throughout history.',
+      ),
+      Book.withoutId(
+        title: 'HISTOIRE DU VAGABONDAGE. Du Moyen Age à nos jours',
+        imagePath: 'assets/vagabondage.webp',
+        prix: 14.99,
+        dateParution: DateTime(1998, 11, 18),
+        auteur: 'Maurice Agulhon',
+        type: 'ePub',
+        description: 'A comprehensive history of vagrancy, tracing its evolution from the Middle Ages to modern times.',
+      ),
+      Book.withoutId(
+        title: 'La mort, l\'au-delà et les autres mondes',
+        imagePath: 'assets/mort.webp',
+        prix: 15.99,
+        dateParution: DateTime(2019, 2, 20),
+        auteur: 'Claude Lecouteux',
+        type: 'PDF',
+        description: 'A journey through beliefs about death, the afterlife, and other worlds across various cultures.',
+      ),
+      Book.withoutId(
+        title: 'Rabelais en Vendée',
+        imagePath: 'assets/rabelais.webp',
+        prix: 9.99,
+        dateParution: DateTime(2004, 6, 1),
+        auteur: 'Gilbert Prouteau',
+        type: 'PDF',
+        description: 'An exploration of the connections between Rabelais and the region of Vendée, rich in historical context.',
+      ),
+      Book.withoutId(
+        title: 'Rire avec Dieu - L\'humour chez les chrétiens, les juifs et les musulmans',
+        imagePath: 'assets/rire.webp',
+        prix: 17.99,
+        dateParution: DateTime(2019, 5, 9),
+        auteur: 'Marc Lienhard',
+        type: 'ePub',
+        description: 'A lighthearted look at how humor is perceived and practiced in the three major monotheistic religions.',
+      ),
+      Book.withoutId(
+        title: 'Vivre la misère au Moyen Age',
+        imagePath: 'assets/misere.webp',
+        prix: 17.99,
+        dateParution: DateTime(2023, 4, 7),
+        auteur: 'Jean-Louis Roch',
+        type: 'ePub',
+        description: 'This book paints a vivid picture of the harsh realities of poverty during the Middle Ages.',
+      ),
+      Book.withoutId(
+        title: 'Brigands, bandits, malfaiteurs - Incroyables histoires des crapules, arsouilles, monte-en-l\'air, canailles et contrebandiers de tous les temps',
+        imagePath: 'assets/brigants.webp',
+        prix: 9.99,
+        dateParution: DateTime(2017, 9, 11),
+        auteur: 'Bernard Hautecloque',
+        type: 'Multi-format',
+        description: 'Thrilling tales of notorious outlaws and criminals from history, brought to life with vivid detail.',
+      ),
+      Book.withoutId(
+        title: 'L\'amoureuse histoire d\'Auguste Comte et de Clotilde de Vaux',
+        imagePath: 'assets/augusteclaute.webp',
+        prix: 10.99,
+        dateParution: DateTime(1917, 1, 1),
+        auteur: 'Charles de Rouvre',
+        type: 'ePub',
+        description: 'A romantic and poignant account of the love between Auguste Comte and Clotilde de Vaux.',
+      ),
+      Book.withoutId(
+        title: 'John Milton, poète combattant',
+        imagePath: 'assets/milton.webp',
+        prix: 9.99,
+        dateParution: DateTime(1959, 1, 1),
+        auteur: 'Emile Saillens',
+        type: 'ePub',
+        description: 'An exploration of John Milton’s life as a poet and his involvement in the political battles of his time.',
+      ),
+      Book.withoutId(
+        title: 'Kierkegaard, écrire ou mourir',
+        imagePath: 'assets/kierkegaard.webp',
+        prix: 12.99,
+        dateParution: DateTime(2015, 1, 1),
+        auteur: 'Stéphane Vial',
+        type: 'ePub',
+        description: 'A deep dive into Kierkegaard’s philosophy, focusing on the existential themes of writing and mortality.',
+      ),
+      Book.withoutId(
+        title: 'Esprit, es-tu là? Histoires du surnaturel, de l\'Antiquité à nos jours',
+        imagePath: 'assets/surnaturel.webp',
+        prix: 12.99,
+        dateParution: DateTime(2013, 11, 8),
+        auteur: 'Vivianne Perret',
+        type: 'ePub',
+        description: 'A fascinating look at the supernatural, spanning stories and beliefs from ancient times to the present.',
+      ),
+      Book.withoutId(
+        title: 'Armageddon - Une histoire de la fin du monde',
+        imagePath: 'assets/findumonde.webp',
+        prix: 14.99,
+        dateParution: DateTime(2024, 3, 6),
+        auteur: 'Régis Burnet, Pierre-Edouard Detal',
+        type: 'ePub',
+        description: 'An insightful exploration of apocalyptic visions and the concept of the end of the world through history.',
+      ),
+      Book.withoutId(
+        title: 'L\'Apologétique chrétienne - Expressions de la pensée religieuse, de l\'Antiquité à nos jours',
+        imagePath: 'assets/apologetique.webp',
+        prix: 11.99,
+        dateParution: DateTime(2019, 9, 3),
+        auteur: 'Didier Boisson, Elisabeth Pinto-Mathieu',
+        type: 'Multi-format',
+        description: 'A comprehensive guide to Christian apologetics, tracing its evolution from ancient times to modernity.',
+      ),
+      Book.withoutId(
+        title: 'La Prostitution devant le philosophe',
+        imagePath: 'assets/prostphil.webp',
+        prix: 1.99,
+        dateParution: DateTime(2016, 8, 5),
+        auteur: 'Charles Richard',
+        type: 'Multi-format',
+        description: 'An intriguing philosophical discussion on the moral and social implications of prostitution.',
+      ),
+      Book.withoutId(
+        title: 'Dis Socrate, c\'est quoi l\'amour ? - Quand les philosophes discutent du plus beau des sentiments',
+        imagePath: 'assets/socrateamour.webp',
+        prix: 13.99,
+        dateParution: DateTime(2021, 10, 4),
+        auteur: 'Nora Kreft',
+        type: 'ePub',
+        description: 'A philosophical exploration of love, guided by the thoughts and dialogues of Socrates and other great minds.',
+      ),
+      Book.withoutId(
+        title: 'Le vrai métier des philosophes',
+        imagePath: 'assets/vraimetier.webp',
+        prix: 10.99,
+        dateParution: DateTime(2024, 5, 29),
+        auteur: 'Nassim El Kabli',
+        type: 'ePub',
+        description: 'An engaging discussion on the true role and profession of philosophers throughout history.',
+      ),
     ];
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Liste des livres'),
+        title: const Text('Liste statique des livres'),
         backgroundColor: Colors.blueAccent,
       ),
       drawer: Drawer(
@@ -572,7 +724,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const Text('Paramètres'),
         backgroundColor: Colors.blueAccent,
       ),
       body: Center(
@@ -897,74 +1049,125 @@ class _UpdateBookPageState extends State<UpdateBookPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                initialValue: _book.title,
-                decoration: const InputDecoration(labelText: 'Title'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a title';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _book = _book.copyWith(title: value!);
-                },
-              ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                decoration: const InputDecoration(labelText: 'Type'),
-                value: selectedType,
-                items: types.map((String type) {
-                  return DropdownMenuItem<String>(
-                    value: type,
-                    child: Text(type),
-                  );
-                }).toList(),
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedType = newValue;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select a type';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<int>(
-                decoration: const InputDecoration(labelText: 'Liste'),
-                value: selectedListId,
-                items: listes.map((Liste liste) {
-                  return DropdownMenuItem<int>(
-                    value: liste.id,
-                    child: Text(liste.title),
-                  );
-                }).toList(),
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedListId = newValue;
-                  });
-                },
-                validator: (value) {
-                  // Optional: Add validation if needed
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _updateBook,
-                child: const Text('Update Book'),
-              ),
-            ],
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  initialValue: _book.title,
+                  decoration: const InputDecoration(labelText: 'Title'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a title';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _book = _book.copyWith(title: value!);
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  initialValue: _book.description,
+                  decoration: const InputDecoration(labelText: 'Description'),
+                  maxLines: 5,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer une description';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _book = _book.copyWith(description: value!);
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  initialValue: _book.prix.toString(),
+                  decoration: const InputDecoration(labelText: 'Prix'),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer un prix';
+                    }
+                    if (double.tryParse(value) == null) {
+                      return 'Veuillez entrer un prix valide';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _book = _book.copyWith(prix: double.tryParse(value!));
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  initialValue: _book.auteur,
+                  decoration: const InputDecoration(labelText: 'Auteur'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer un auteur';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _book = _book.copyWith(auteur: value!);
+                  },
+                ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(labelText: 'Type'),
+                  value: selectedType,
+                  items: types.map((String type) {
+                    return DropdownMenuItem<String>(
+                      value: type,
+                      child: Text(type),
+                    );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedType = newValue;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select a type';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<int>(
+                  decoration: const InputDecoration(labelText: 'Liste'),
+                  value: selectedListId,
+                  items: listes.map((Liste liste) {
+                    return DropdownMenuItem<int>(
+                      value: liste.id,
+                      child: Text(liste.title),
+                    );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedListId = newValue;
+                    });
+                  },
+                  validator: (value) {
+                    // Optional: Add validation if needed
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: _updateBook,
+                  child: const Text('Update Book'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
+
     );
   }
 }
@@ -1008,13 +1211,18 @@ class ViewBookPage extends StatelessWidget {
                 // Display the book title
                 Text(
                   book.title,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 34,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline
+
+                  ),
                 ),
                 const SizedBox(height: 16),
                 // Display the book image
                 Container(
                   width: double.infinity, // Make the container full width
-                  height: 400, // Set a fixed height for the image
+                  height: 600, // Set a fixed height for the image
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: book.imagePath.isNotEmpty
@@ -1024,10 +1232,34 @@ class ViewBookPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 32),
                 // Display the book description
+                Center(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      const Text(
+                        'Description',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red, // Text color
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        child: Container(
+                          height: 2,
+                          width: 150, // Adjust width to match the text length
+                          color: Colors.red, // Underline color
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
                 Text(
-                  'Description: ${book.description ?? 'No description available'}',
+                  ' ${book.description ?? 'No description available'}',
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 16),
@@ -1036,10 +1268,16 @@ class ViewBookPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                      child: Text('Author: ${book.auteur}'),
+                      child: Text(
+                        'Author: ${book.auteur}',
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ),
                     Expanded(
-                      child: Text('Date: ${book.dateParution?.toLocal().toString().split(' ')[0]}'),
+                      child: Text(
+                          'Date: ${DateFormat('dd MMM yyyy', 'fr_FR').format(book.dateParution)}',
+                          style: const TextStyle(fontSize: 16),
+                      ),
                     ),
                   ],
                 ),
@@ -1048,10 +1286,16 @@ class ViewBookPage extends StatelessWidget {
                   children: [
 
                     Expanded(
-                      child: Text('Type: ${book.type}'),
+                      child: Text(
+                          'Type: ${book.type}',
+                          style: const TextStyle(fontSize: 16),
+                      ),
                     ),
                     Expanded(
-                      child: Text('Liste: ${listName}'),
+                      child: Text(
+                          'Liste: ${listName}',
+                          style: const TextStyle(fontSize: 16),
+                      ),
                     ),
                   ],
                 ),
@@ -1744,6 +1988,26 @@ class _ListeDetailPageState extends State<ListeDetailPage> {
     });
   }
 
+
+
+  void _seeBook(int id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ViewBookPage(bookId: id),
+      ),
+    );
+  }
+
+  void _updateBook(int id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UpdateBookPage(bookId: id),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1801,8 +2065,11 @@ class _ListeDetailPageState extends State<ListeDetailPage> {
                               ),
                               itemCount: books.length,
                               itemBuilder: (context, index) {
-                                return BookCard(
+                                return BookCard2(
                                   book: books[index],
+                                  onDelete: () => _deleteBook(books[index].id),
+                                  onSee: () => _seeBook(books[index].id),
+                                  onUpdate: () => _updateBook(books[index].id),
                                 );
                               },
                             ),
@@ -2604,18 +2871,28 @@ class _BudgetPageState extends State<BudgetPage> {
         List<PieChartSectionData> sections = secteurs.map((secteur) {
           double percentage = (secteur.prix / totalBudget) * 100;
           return PieChartSectionData(
-            radius: 100,
+            radius: 160,
             value: secteur.prix,
-            title: '${secteur.title} : ${percentage.toStringAsFixed(1)}%',
+            title: '${secteur.title}',
+            titleStyle: TextStyle(
+              fontSize: 10, // Set the font size for the title
+              fontWeight: FontWeight.bold, // Optional: Set font weight
+              color: Colors.white, // Set the color of the title
+            ),
             color: Colors.primaries[secteurs.indexOf(secteur) % Colors.primaries.length],
           );
         }).toList();
 
         if (remainingBudget > 0) {
           sections.add(PieChartSectionData(
-            radius: 100,
+            radius: 160,
             value: remainingBudget,
-            title: '${(remainingBudget / totalBudget * 100).toStringAsFixed(1)}% Libre',
+            title: 'Libre',
+            titleStyle: TextStyle(
+              fontSize: 10, // Set the font size for the title
+              fontWeight: FontWeight.bold, // Optional: Set font weight
+              color: Colors.white, // Set the color of the title
+            ),
             color: Colors.grey,
           ));
         }
@@ -2625,7 +2902,7 @@ class _BudgetPageState extends State<BudgetPage> {
             Center(
               child: Container(
                 width: 800,
-                height: 300,
+                height: 500,
                 padding: const EdgeInsets.all(16.0),
                 child: PieChart(
                   PieChartData(
@@ -2637,14 +2914,16 @@ class _BudgetPageState extends State<BudgetPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20), // Spacing between chart and legend
+            SizedBox(height:2), // Spacing between chart and legend
             Container(
-              width: 300,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              width: 600,
+              child: Wrap(
+                alignment: WrapAlignment.start,
+                spacing: 16, // Spacing between columns
+                runSpacing: 8, // Spacing between rows
                 children: sections.map((section) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  return Container(
+                    width:250,//Set width for each item (adjust based on your needs)
                     child: Row(
                       children: [
                         Container(
@@ -2652,10 +2931,12 @@ class _BudgetPageState extends State<BudgetPage> {
                           height: 20,
                           color: section.color,
                         ),
-                        SizedBox(width: 8),
-                        Text(
-                          '${section.title}: ${section.value.toStringAsFixed(2)} dh',
-                          style: const TextStyle(fontSize: 16),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            '${((section.value / totalBudget) * 100).toStringAsFixed(1)}% - ${section.title} :  ${section.value.toStringAsFixed(2)} dh',
+                            style: const TextStyle(fontSize: 15),
+                          ),
                         ),
                       ],
                     ),
@@ -2663,6 +2944,7 @@ class _BudgetPageState extends State<BudgetPage> {
                 }).toList(),
               ),
             ),
+
             SizedBox(height: 20), // Spacing before total amount
             Text(
               'Total Budget: ${totalBudget.toStringAsFixed(2)} dh',

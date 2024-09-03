@@ -112,7 +112,10 @@ class DBHelper {
 
   Future<List<Book>> fetchBooks() async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('books');
+    final List<Map<String, dynamic>> maps = await db.query(
+        'books',
+        orderBy: 'title ASC', // Order by title in descending order
+        );
     return List.generate(maps.length, (i) {
       return Book.fromMap(maps[i]);
     });
@@ -123,6 +126,7 @@ class DBHelper {
       'books',
       where: 'listId = ?', // Filter books by listId
       whereArgs: [listeId], // Pass the listId as a parameter
+      orderBy: 'title ASC',
     );
 
     // Convert the list of maps to a list of Book objects
@@ -147,7 +151,10 @@ class DBHelper {
 
   Future<List<Achat>> fetchAchats() async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('achats');
+    final List<Map<String, dynamic>> maps = await db.query(
+        'achats',
+        orderBy: 'title ASC',
+    );
     return List.generate(maps.length, (i) {
       return Achat.fromMap(maps[i]);
     });
@@ -176,7 +183,10 @@ class DBHelper {
 
   Future<List<Liste>> fetchListes() async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('listes');
+    final List<Map<String, dynamic>> maps = await db.query(
+        'listes',
+        orderBy: 'date ASC',
+    );
     return List.generate(maps.length, (i) {
       return Liste.fromMap(maps[i]);
     });
@@ -210,7 +220,10 @@ class DBHelper {
 
   Future<List<Secteur>> fetchSecteurs() async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('secteurs');
+    final List<Map<String, dynamic>> maps = await db.query(
+        'secteurs',
+        orderBy: 'title ASC',
+    );
     return List.generate(maps.length, (i) {
       return Secteur.fromMap(maps[i]);
     });
